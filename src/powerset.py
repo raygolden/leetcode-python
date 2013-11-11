@@ -3,7 +3,7 @@
 """ Powerset """
 
 def powerset(s):
-    s.sorted()
+    s.sort()
     result = []
 
     result.append([])
