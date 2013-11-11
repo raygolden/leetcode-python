@@ -3,21 +3,22 @@
 """ Powerset """
 
 def powerset(s):
+    s.sorted()
     result = []
-    
+
     result.append([])
-    
+
     for e in s:
         l = len(result)
         i = 0
         while i < l:
             res = list(result[i])
             res.append(e)
-                        
+
             result.append(res)
             i += 1
-        
-        
+
+
     return result
 
 
