@@ -25,36 +25,41 @@ isMatch("aab", "c*a*b") ? false
 
 
 def isMatch(s, p):
-    if not s:
-        if p == '*': return True
-        else: return False
+    if s and p:
+        if s[0] == p[0] or p[0] == '?':
+            return isMatch(s[1:], p[1:])
 
-    i = 0
-    j = 0
-    while (i < len(s) and j < len(p)):
-        if s[i] == p[j] or p[j] == '?':
-            if i == len(s) - 1 and j == len(p) - 1: return True
-            i += 1
-            j += 1
+        elif p[0] == '*':
+            star = 0
+            index = 0
+            while star < len(p) and p[star] == '*': star += 1
+            if star == len(p): return True
+            while index < len(s):
+                if isMatch(s[index:], p[star:]):
+                    return True
+                index += 1
 
-        elif p[j] == '*':
-            if i == len(s) - 1 and j == len(p) - 1: return True
-            i += 1
+    else:
+        if p and not s:
+            if p == '*':
+                return True
+            else:
+                return False
+        elif not p and not s:
+            return True
 
-        else:
-            return False
 
 
     return False
 
 
 if __name__ == '__main__':
-    print isMatch('aa', 'a')
-    print isMatch("aa","aa")
-    print isMatch("aaa","aa")
-    print isMatch("aa", "*")
-    print isMatch("aa", "a*")
-    print isMatch("ab", "?*")
-    print isMatch("aab", "c*a*b")
-    print isMatch("aab", "*a*b")
-    print isMatch("aabccc", "*ccc")
+    print isMatch('aa', 'a') # False
+    print isMatch("aa","aa") # True
+    print isMatch("aaa","aa") # False
+    print isMatch("aa", "*") # True
+    print isMatch("aa", "a*") #True
+    print isMatch("ab", "?*") #True
+    print isMatch("aab", "c*a*b") #False
+    print isMatch("aab", "*a*b") # True
+    print isMatch("aabccc", "*ccc") #True
